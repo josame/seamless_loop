@@ -10,17 +10,40 @@
 #include <sstream>
 #include<stdio.h>
 #include<vector>
+#include <cstdio>
+#include <cstdlib>
+#include <image.h>
+#include <misc.h>
+#include <pnmfile.h>
+#include "segment-image.h"
 using namespace cv;
 #define CODESEGMENT 1
 int main(int, char**)
 {
 	int tot_num_frames_in_vid=0;
-	//char * filename = new char[100];
+	char * filename = new char[100];
     Mat frame;
     cv::Mat all_pixel_Mat;
     Mat video;
     int flag=0;
     int row_index,col_index;
+    float sigma = 0.8;
+      float k = 300;
+      int min_size = 1000;
+      int num_ccs;
+
+      //Working code for graph segmentation
+      /*
+      // Segmentation starts
+    		sprintf(filename,"frames/1.ppm");
+    		image<rgb> *input = loadPPM(filename);
+    		image<rgb> *seg = segment_image(input, sigma, k, min_size, &num_ccs);
+    		sprintf(filename,"frames/1-segmented.ppm");
+    		savePPM(seg, filename);
+    		printf("\nDone segmenting");
+    	  // Segmentation ends
+       */
+
     VideoCapture cap("SamplePoolPalms.mp4");
     if(!cap.isOpened())  // check if we succeeded
         return -1;
@@ -45,7 +68,7 @@ int main(int, char**)
     {
     	for(col_index=0;col_index<video.cols;col_index++)
     	{
-    		video.at<cv::Vec3b>(row_index,col_index)[0]; //Blue
+    		// video.at<cv::Vec3b>(row_index,col_index)[0]; //Gives you Blue value
     	}
     }
 
