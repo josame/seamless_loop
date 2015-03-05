@@ -15,8 +15,10 @@
 #include <image.h>
 #include <misc.h>
 #include <pnmfile.h>
-#include "segment-image.h"
+#include "segment-image2.h"
+#include "sort.h"
 using namespace cv;
+using namespace std;
 #define CODESEGMENT 1
 int main(int, char**)
 {
@@ -33,16 +35,52 @@ int main(int, char**)
       int num_ccs;
 
       //Working code for graph segmentation
-      /*
+
       // Segmentation starts
-    		sprintf(filename,"frames/1.ppm");
-    		image<rgb> *input = loadPPM(filename);
-    		image<rgb> *seg = segment_image(input, sigma, k, min_size, &num_ccs);
-    		sprintf(filename,"frames/1-segmented.ppm");
-    		savePPM(seg, filename);
-    		printf("\nDone segmenting");
-    	  // Segmentation ends
-       */
+      sprintf(filename,"1.ppm");
+      image<rgb> *input = loadPPM(filename);
+      int *seg = segment_image(input, sigma, k, min_size, &num_ccs);
+      //sprintf(filename,"1-segmented.ppm");
+      //savePPM(seg, filename);
+      printf("\nDone segmenting\n");
+      int width=input->width();
+      int height=input->height();
+      // Sorting start
+      std::vector<int> a(seg, seg + width*height);
+      /*for(int i=100;i>1;i--)
+            {
+          	  printf("\t %d", a.at(height*width-i-1));
+            }*/
+      std::vector<size_t> indices;
+      std::vector<int> sorted;
+
+      sort(a,sorted,indices);
+      /*
+      for(int i=5000;i<6000;i++)
+      {
+    	  printf("\t Cluster number:%d Pixel: (%d,%d) \n", sorted.at(i),indices[i]%width, indices[i]/width);
+      }*/
+      int number_of_segments=0;
+      std::vector<int> lastpoints;
+      for(int i=0;i<width*height-1;i++)
+      {
+    	  if(sorted.at(i)!=sorted.at(i+1))
+    	  {
+    		  number_of_segments++;
+    		  lastpoints.push_back(i);
+    	  }
+      }
+      lastpoints.push_back(width*height-1);
+      printf("\n%d number of segments\n", number_of_segments);
+      /*for(int i=0;i<=number_of_segments;i++)
+           {
+         	  printf("\t Endpoint of segment number %d :%d\n", i,lastpoints.at(i));
+           }*/
+      //Cutting the points by segments
+
+      // Segmentation ends
+      getchar();
+
 
     VideoCapture cap("SamplePoolPalms.mp4");
     if(!cap.isOpened())  // check if we succeeded
