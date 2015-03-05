@@ -62,14 +62,36 @@ int main(int, char**)
       }*/
       int number_of_segments=0;
       std::vector<int> lastpoints;
-      for(int i=0;i<width*height-1;i++)
+      std::vector <vector <int> > vec_of_clusterwise_plocs;
+      std::vector<int> rolling_vec;
+
+      for(int i=0;i<width*height;i++)
       {
-    	  if(sorted.at(i)!=sorted.at(i+1))
+    	  rolling_vec.push_back(indices[i]);
+    	  if(i!=width*height-1)
     	  {
+    		  if(sorted.at(i)!=sorted.at(i+1))
+    		  {
     		  number_of_segments++;
     		  lastpoints.push_back(i);
+    		  vec_of_clusterwise_plocs.push_back(rolling_vec);
+    		  rolling_vec.clear();
+    		  }
     	  }
       }
+      if(rolling_vec.size()!=0)
+      {
+    	  vec_of_clusterwise_plocs.push_back(rolling_vec);
+      }
+      printf("\n Number of clusters are %d", vec_of_clusterwise_plocs.size());
+      int checksum=0;
+      for(int i=0;i<vec_of_clusterwise_plocs.size();i++)
+      {
+    	  checksum=checksum+vec_of_clusterwise_plocs.at(i).size();
+    	  printf("\n The size of cluster %d is %d", i, vec_of_clusterwise_plocs.at(i).size());
+      }
+      printf("\n Checksum is %d", checksum);
+      getchar();
       lastpoints.push_back(width*height-1);
       printf("\n%d number of segments\n", number_of_segments);
       /*for(int i=0;i<=number_of_segments;i++)
@@ -77,6 +99,7 @@ int main(int, char**)
          	  printf("\t Endpoint of segment number %d :%d\n", i,lastpoints.at(i));
            }*/
       //Cutting the points by segments
+
 
       // Segmentation ends
       getchar();
