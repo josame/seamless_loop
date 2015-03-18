@@ -10,7 +10,8 @@ src/seamless_loop.d: ../src/seamless_loop.cpp \
  /home/ameya/workspace/seamless_loop/segment/imconv.h \
  /home/ameya/workspace/seamless_loop/segment/imutil.h \
  /home/ameya/workspace/seamless_loop/segment/segment-graph.h \
- /home/ameya/workspace/seamless_loop/segment/disjoint-set.h ../src/sort.h
+ /home/ameya/workspace/seamless_loop/segment/disjoint-set.h ../src/sort.h \
+ ../src/pixel_similarity.h
 
 /home/ameya/workspace/seamless_loop/segment/image.h:
 
@@ -37,3 +38,5 @@ src/seamless_loop.d: ../src/seamless_loop.cpp \
 /home/ameya/workspace/seamless_loop/segment/disjoint-set.h:
 
 ../src/sort.h:
+
+../src/pixel_similarity.h:
